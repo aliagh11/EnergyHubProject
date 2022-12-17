@@ -1,4 +1,4 @@
-* Energy Hub - Project - Sahel Saadati
+* Energy Hub - Project 
 
 SETs
 t        index of time /1*24/
