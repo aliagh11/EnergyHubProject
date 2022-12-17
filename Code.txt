@@ -1,0 +1,431 @@
+* Energy Hub - Project - Sahel Saadati
+
+SETs
+t        index of time /1*24/
+c        index of cooling energy         /EC,AC/
+x        index of storage systems        /BES, HES, CES/
+
+;
+
+********************************************************************************
+
+Scalars
+
+P_grid_MAX        maximum capacity of purchasing power from grid (kW)      /1200/
+P_sell_MAX        maximum capacity of selling elec to grid (kW)            /200/
+P_GT_MAX          maximum capacity of power generation in Gas Turbine (kW) /5000/
+P_WT_MAX          maximum capacity of power generation in Wind Turbine (kW)/100/
+P_pv_MAX          maximum capacity of power generation in PVs (kW)         /50/
+P_h_GB_MAX        maximum capacity of heating energy generation in GB (kW) /24/
+P_EC_MAX          maximum capacity of Elec. Chiller (kW)                   /1000/
+P_AC_MAX          maximum capacity of Abso. Chiller (kW)                   /600/
+etta_trans        efficiency of transformer                                /0.97/
+etta_GT           electricity efficiency of gas turbine                    /0.35/
+etta_h_GT         heating efficiency of gas turbine                        /0.30/
+etta_h_GB         heating efficiency of gas boiler                         /0.93/
+etta_h_HE         heat exchanger efficiency                                /0.9/
+etta_PV           efficiency of PV                                         /0.9/
+E                 electricity demand - price elasticity                    /0.8/
+
+;
+
+********************************************************************************
+
+Parameters
+etta_CHiller(c)       efficiency of Chillers                     /EC 0.9, AC 0.9/
+
+P_e_demand(t)         demand of electricity (kW) /
+
+1         1000
+2         760
+3         900
+4         850
+5         900
+6         1000
+7         1100
+8         1200
+9         1250
+10        1300
+11        1400
+12        1500
+13        1600
+14        1700
+15        1800
+16        1900
+17        2000
+18        2100
+19        2000
+20        1900
+21        1800
+22        2000
+23        1900
+24        1800
+
+/
+
+P_h_demand(t)         demand of heating energy (kW) /
+
+1         500
+2         550
+3         600
+4         650
+5         650
+6         700
+7         750
+8         750
+9         800
+10        850
+11        850
+12        900
+13        1000
+14        1100
+15        1200
+16        1000
+17        900
+18        850
+19        850
+20        1000
+21        1200
+22        1200
+23        1000
+24        800
+
+/
+
+P_c_demand(t)         demand of cooling energy (kW)  /
+
+1         200
+2         200
+3         300
+4         450
+5         450
+6         450
+7         450
+8         450
+9         450
+10        500
+11        450
+12        450
+13        450
+14        500
+15        1000
+16        800
+17        600
+18        400
+19        400
+20        300
+21        200
+22        100
+23        50
+24        50
+
+/
+
+etta_CH(x)       efficiency of charge of storage systems         /BES 0.9, HES 0.9, CES 0.9/
+etta_DCH(x)      efficiency of discharge of storage systems      /BES 0.9, HES 0.9, CES 0.9/
+MAXES(x)         maximum capacity of energy storage systems      /BES 500, HES 200, CES 150/
+MINES(x)         minimum capacity of energy storage systems      /BES 0, HES 0, CES 0/
+CHRMAX(x)        maximum charged power of storages               /BES 400, HES 400, CES 400/
+DCHRMAX(x)       maximum discharged power of storages            /BES 350, HES 350, CES 350/
+
+EP(t)            Electricity buy from grid price ($ per kW)     /
+
+1         0.005
+2         0.0051
+3         0.0051
+4         0.0051
+5         0.0053
+6         0.0053
+7         0.0053
+8         0.0053
+9         0.0059
+10        0.0059
+11        0.0059
+12        0.0059
+13        0.0054
+14        0.0054
+15        0.0054
+16        0.0054
+17        0.0065
+18        0.0065
+19        0.0065
+20        0.0065
+21        0.0065
+22        0.0065
+23        0.0061
+24        0.0058
+
+
+/
+
+new_EP(t)        new electricity price($ per kW) /
+
+1         0.006
+2         0.00612
+3         0.00612
+4         0.00612
+5         0.00636
+6         0.00636
+7         0.00636
+8         0.00636
+9         0.00708
+10        0.00708
+11        0.00708
+12        0.00708
+13        0.00648
+14        0.00648
+15        0.00648
+16        0.00648
+17        0.0078
+18        0.0078
+19        0.0078
+20        0.0078
+21        0.0078
+22        0.0078
+23        0.00732
+24        0.00696
+
+
+
+/
+
+GP(t)            Gas buy price ($ per m3)     /
+
+1         0.0084
+2         0.0084
+3         0.0084
+4         0.0084
+5         0.0084
+6         0.0084
+7         0.0084
+8         0.0089
+9         0.0089
+10        0.0089
+11        0.0089
+12        0.0089
+13        0.0089
+14        0.0094
+15        0.0094
+16        0.0094
+17        0.0094
+18        0.0094
+19        0.0094
+20        0.009
+21        0.009
+22        0.009
+23        0.009
+24        0.009
+
+/
+
+ESP(t)           Elec. sell price ($ per kW)   /
+
+1         0.0045
+2         0.00459
+3         0.00459
+4         0.00459
+5         0.00477
+6         0.00477
+7         0.00477
+8         0.00477
+9         0.531
+10        0.531
+11        0.531
+12        0.531
+13        0.00486
+14        0.00486
+15        0.00486
+16        0.00486
+17        0.00585
+18        0.00585
+19        0.585
+20        0.585
+21        0.585
+22        0.00585
+23        0.00549
+24        0.00522
+
+
+/
+
+;
+
+
+********************************************************************************
+
+Binary variables
+u(x,t)         binary variable for controlling the charge and discharge of storage systems simentonously
+u_grid(t)      binary variable for purchasing elec from grid or not
+
+;
+
+********************************************************************************
+
+variables
+Z
+P_e_demand_shift(t)        shift of elec. demand
+
+;
+
+********************************************************************************
+
+Positive variables
+*Electric system
+P_ac(t)        total generated ac power
+P_in(t)        the actual purchasing power from grid
+Pg(t)          purchasing electricity from grid
+Pre(t)         the generated electricity from renewables
+P_GT(t)        Total produced power of gas turbine
+E_GT(t)        Electricity produced by Gas turbine
+P_RE(t)        total electricity produced by renewables
+P_WT(t)        produced electricity from wind turbine
+P_pv(t)        produced power from PVs
+P_sell(t)      The Sold power to the grid
+P_EC(t)        consumed power by the Electrical chiller
+*Heating system
+P_NG(t)        power of total input natural gas
+P_GT(t)        power of natural gas for gas turbine
+P_GB(t)        power of natural gas for gas boiler
+P_h_GT(t)      heating power of gas turbine
+P_h_GB(t)      heating power of gas boiler
+P_h_HE(t)      heating power of HE
+P_h_ST(t)      heating power of solar thermal systems
+P_h_tot(t)     total heating power
+P_h_AC(t)      consumed heat by chiller
+*Cooling system
+TCE(t)         Total Cooling Energy
+CE_EC(t)       Cooling Energy of Electric Chiller
+CE_AC(t)       Cooling Energy of Absorbtion Chiller
+PC_EC(t)       Cooling Energy produced by Electrical chiller
+PC_AC(t)       Cooling Energy produced by Absorbtion chiller
+*EES
+ES(t,x)        Stored energy in storages
+CHR(t,x)
+DCHR(t,x)
+
+*DRP
+P_e_demand_new(t)   new electricity demand after DRP
+
+
+;
+
+********************************************************************************
+
+equations
+*Electrical system
+c1       equation for input of electrical power in hub
+c2       equation for considering efficiency of transformer
+c3       equation for considering efficiency of Gas turbine
+c4       total electricity produced by renewables
+c5       electrical demand satisfying
+*Heating system
+c6       total input power of gas splitted between Gas_turbine and Gas_turbine
+c7       heating power generated by gas turbine
+c8       heating power generated by gas boiler
+c9       heating power generated by HE
+c10      total heating power
+c11      heating demand satisfying
+*Cooling system
+c12      Calculating Total Cooling Energy Produced
+c13      Considering efficiency of Electic Chiller
+c14      Considering efficiency of Heatig Chiller
+*ESS
+c15      ESS are empty at the begining of the period
+c16      Calculating energy of storages at t+1
+c17      bounding the storage systems capacity within min and max of it
+c18      bounding the storage systems capacity within min and max of it
+c19      charging and discharging of storage systems can not happen simentonousley
+c20      charging and discharging of storage systems can not happen simentonousley
+c21      Electrical energy balance for Hub.
+c22      Heating energy balance for Hub.
+c23      Cooling energy balance for Hub.
+c24      controlling the purchasing of elec from grid
+c25      controlling the selling of elec to grid
+C26      maximum elec generation in GT constraint
+c27      maximum heat generation in GB constraint
+c28      maximum capacity of Elec. Chiller
+c29      maximum capacity of Absorb. Chiller
+
+c30      new demand for electricity in DRP
+c31      DRP eqauation 1
+c33      DRP equation 2
+
+c161     at the end of the time index the storages considered to have no energy in it
+c41      Wind turbine maximum power generation
+c42      PVs maximum power generation
+c43      PVs can generate power between 8 AM and 6 PM
+
+OF       Object function
+;
+
+********************************************************************************
+
+*Electrical system
+c1(t) .. P_ac(t) =E= P_in(t) + E_GT(t) + Pre(t);
+c2(t) .. P_in(t) =E= pg(t) * etta_trans;
+c3(t) .. E_GT(t) =E= P_GT(t) * etta_GT;
+c4(t) .. Pre(t)  =E= P_WT(t) + (P_pv(t) * etta_PV);
+c43(t)$(ord(t)>18 OR ord(t)<8).. P_pv(t) =E= 0;
+c41(t).. P_WT(t) =L= P_WT_MAX;
+c42(t).. P_pv(t) =L= P_pv_MAX;
+c5(t) .. P_ac(t) - P_sell(t) - P_EC(t) =E= P_e_demand(t);
+
+*Heating system
+c6(t) .. P_NG(t)    =E= P_GT(t)+P_GB(t);
+c7(t) .. P_h_GT(t)  =E= etta_h_GT * P_GT(t);
+c8(t) .. P_h_GB(t)  =E= etta_h_GB * P_GB(t);
+c9(t) .. P_h_HE(t)  =E= P_h_GT(T) * etta_h_HE;
+c10(t).. P_h_tot(t) =E= P_h_GB(t) + P_h_ST(t) + P_h_HE(t);
+c11(t).. P_h_tot(t) - P_h_AC(t) =E= P_h_demand(t);
+
+*Cooling system
+c12(t).. TCE(t)   =E= PC_EC(t)+PC_AC(t);
+c13(t).. PC_EC(t) =E= etta_CHiller('EC') * P_EC(t);
+c14(t).. PC_AC(t) =E= etta_CHiller('AC') * P_h_AC(t);
+
+*ESS
+c15(t,x).. ES('1',x) =E= 0;
+c16(t,x)$(ord(t) >0 and ord(t) < 25).. ES(t+1,x) =E= ES(t,x) +  ( (CHR(t,x)*etta_CH(x)) - (DCHR(t,x)/etta_DCH(x)) );
+c161(t,x).. ES('24',x) =E= 0;
+c17(t,x)$(ord(t) > 1 and ord(t) < 24 ).. ES(t,x) =L= MAXES(x);
+c18(t,x)$(ord(t) > 1 and ord(t) < 24 ).. ES(t,x) =G= MINES(x);
+c19(t,x)..CHR(t,x)  =L= u(x,t) * CHRMAX(x);
+c20(t,x)..DCHR(t,x) =L= ( 1-u(x,t) ) * DCHRMAX(x);
+
+c21(t).. P_ac(t) + DCHR(t,'BES') - CHR(t,'BES') - P_sell(t) - P_EC(t) =E= P_e_demand(t);
+c22(t).. P_h_tot(t) + DCHR(t,'HES') - CHR(t,'HES') - P_h_AC(t) =E= P_h_demand(t);
+c23(t).. TCE(t) + DCHR(t,'CES') =E= P_c_demand(t);
+
+*Constraints of Optimization problem
+c24(t).. pg(t)     =L= P_grid_MAX * u_grid(t);
+c25(t).. P_sell(t) =L= P_sell_MAX * (1-u_grid(t));
+c26(t).. P_GT(t)   =L= P_GT_MAX;
+c27(t).. P_h_GB(t) =L= P_h_GB_MAX;
+c28(t).. CE_EC(t)  =L= P_EC_MAX;
+c29(t).. PC_AC(t)  =L= P_AC_MAX;
+
+*DRP
+c30(t).. P_e_demand_new(t) =E= P_e_demand(t)*( 1 + (E * ( (EP(t)-new_EP(t))/EP(t) ) ) );
+c31(t).. P_e_demand_new(t) =E= P_e_demand(t) + P_e_demand_shift(t);
+c33(t).. P_e_demand_shift(t) =L= 0.9 * P_e_demand(t);
+
+*Object function
+
+OF .. Z =E=  sum(t,EP(t)*pg(t)) + sum(t,GP(t)*P_NG(t)) - sum(t,ESP(t)*P_sell(t));
+
+********************************************************************************
+
+*Solving the model
+model Energy_Hub_Project /all/                        ;
+option MIP = cplex,  OPTCA = 0,OPTCR = 0              ;
+solve Energy_Hub_Project using MIP minimizing Z       ;
+display Z.l, P_ac.l, P_in.l, Pre.l, pg.l, E_GT.l, P_WT.l, P_pv.l,
+P_sell.l, P_EC.l, PC_EC.l, PC_AC.l, ES.l, u.l, CHR.l, DCHR.l, P_NG.l, P_GB.l, P_h_HE.l, P_NG.l, P_GT.l, P_GB.l, P_h_ST.l, u.l, P_e_demand_new.l, P_e_demand_shift.l;
+
+********************************************************************************
+
+
+
+
+
+
